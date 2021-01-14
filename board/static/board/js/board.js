@@ -4,6 +4,8 @@ $(document).ready(function() {
     initBoard();
 });
 
+var board;
+
 /**
 * Init the chess board by placing the pawns accordingly
 */
@@ -24,7 +26,7 @@ function initBoard() {
     };
 
     // Creates the board with the chosen configuration
-    var board = Chessboard('myBoard', config)
+    board = Chessboard('myBoard', config)
 }
 
 function onDrop (source, target, piece, newPos, oldPos, orientation) {

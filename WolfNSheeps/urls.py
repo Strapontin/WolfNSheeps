@@ -17,10 +17,11 @@ from django.contrib import admin
 from django.urls import path
 from django.conf.urls import include
 
-from .views import redirect_to_chat
+from .views import redirect_to_home_page
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('board/', include('board.urls')),
-    path('', redirect_to_chat),
+    path('home/', include('home_page.urls')),
+    path('', redirect_to_home_page),
 ]
