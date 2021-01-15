@@ -10,6 +10,11 @@ function initHomePage() {
 
     refreshAvailableRooms();
 
+     ajaxInterval = setInterval(() => {
+        
+         refreshAvailableRooms();
+     }, 3000);
+
     // Initialisation des évènements
     $("#createRoom").off("click").on("click", createNewRoom);
 }
@@ -19,27 +24,25 @@ function initHomePage() {
  */
 function refreshAvailableRooms() {
 
-    var data = {
-        val1: 1,
-        val2: "maval2"
-    };
+    var data = { };
 
-    ajaxInterval = setInterval(() => {
+    $.ajax({
+        type: 'GET',
+        data: data,
+        url: show_all_rooms
+    }).done(function(data) {
+        console.log("Retour ajaxCall");
+        console.log(data);
         
-        $.ajax({
-            type: 'GET',
-            data: data,
-            url: show_all_rooms
-        }).done(function(data) {
-            console.log("Retour ajaxCall");
-            console.log(data);
-        }).fail(function(data) {
-            console.log('Erreur ajaxCall');
-            console.log(data);
+        $("#availableRoomsContainer").html(data);
+        createAllMiniatureBoard();
 
-            clearInterval(ajaxInterval);
-        });
-    }, 3000);
+    }).fail(function(data) {
+        console.log('Erreur ajaxCall');
+        console.log(data);
+
+        clearInterval(ajaxInterval);
+    });
 }
 
 /**
@@ -58,10 +61,27 @@ function createNewRoom() {
     }).done(function(data) {
         console.log("Retour ajaxCall");
         console.log(data);
+        
     }).fail(function(data) {
         console.log('Erreur ajaxCall');
         console.log(data);
 
         clearInterval(ajaxInterval);
+    });
+}
+
+function createAllMiniatureBoard() {
+
+    $(".boardMiniature").each(function (index, element) {
+
+        var config = {
+            pieceTheme: '../static/common/img/chesspieces/wikipedia/{piece}.png',
+            position: $(element).data("position"),
+            showNotation: false,
+        };
+
+        console.log($(element).data("position"));
+
+        var board = Chessboard($(element).attr("id"), config);
     });
 }

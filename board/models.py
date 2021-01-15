@@ -17,5 +17,5 @@ class Room(models.Model):
         return self.second_player != ""
 
     def delete_non_used_rooms(self):
-        if self.last_time_updated <= timezone.now() - timezone.timedelta(minutes=5):
+        if self.last_time_updated <= timezone.now() - timezone.timedelta(minutes=500):
             self.delete()

@@ -1,0 +1,24 @@
+
+.roomContainer {
+    width: 200px;
+}
+
+.roomContainer button {
+    width: 195px;
+    height: 28px;
+}
+
+.roomContainer div {
+    text-align: center;
+}
+
+.roomName {
+    height: 38px;
+    padding-top: 18px;
+}
+
+#availableRoomsContainer {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 20px;
+}

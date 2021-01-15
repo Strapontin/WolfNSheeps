@@ -26,7 +26,7 @@ function initBoard() {
     };
 
     // Creates the board with the chosen configuration
-    board = Chessboard('myBoard', config)
+    board = Chessboard('myBoard', config);
 }
 
 function onDrop (source, target, piece, newPos, oldPos, orientation) {
@@ -53,7 +53,7 @@ function onDrop (source, target, piece, newPos, oldPos, orientation) {
     }
 
     // If we move the black piece
-    if (piece[0] == 'b'){
+    if (piece[0] == 'b') {
 
         // It can go back and forth
         if (!(parseInt(source[1]) + 1 === parseInt(target[1]) ||

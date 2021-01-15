@@ -1,0 +1,28 @@
+
+{% for r in rooms %}
+    <!-- <p>room = '{{ r }}'</p> -->
+    <div class="roomContainer">
+        <div class="roomName">{{ r.fields.room_name }}</div>
+
+        <!-- Board position -->
+        <div class="boardMiniature" id="miniature_{{ r.pk }}" data-position="{{ r.fields.position }}"></div>
+
+
+        {% if r.fields.second_player %}
+
+            <!-- There is a second player already, the room cannot be joined -->
+            <div>Salon complet !</div>
+
+        {% elif creator_name == r.fields.creator %}
+
+            <!-- You can't join your own room (weird, isn'it) -->
+            <div>Vous ne pouvez pas rejoindre votre propre salon.</div>
+
+        {% else %}
+
+            <!-- There is no second player, someone can join -->
+            <button class="join">Rejoindre le salon</button>
+
+        {% endif %}
+    </div>
+{% endfor %}
