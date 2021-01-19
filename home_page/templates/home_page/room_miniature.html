@@ -1,28 +1,33 @@
 
 {% for r in rooms %}
-    <!-- <p>room = '{{ r }}'</p> -->
+
     <div class="roomContainer">
-        <div class="roomName">{{ r.fields.room_name }}</div>
+        <div class="roomName" title="{{ r.fields.room_name }}">{{ r.fields.room_name }}</div>
 
-        <!-- Board position -->
-        <div class="boardMiniature" id="miniature_{{ r.pk }}" data-position="{{ r.fields.position }}"></div>
+        <!-- Load board -->
+        {% if user_name != r.fields.creator and user_name != r.fields.second_player and r.fields.second_player %}
+            <div class="boardMiniature cantJoinRoom" id="miniature_{{ r.pk }}" data-position="{{ r.fields.position }}"></div>
+        {% else %}
+            <div class="boardMiniature" id="miniature_{{ r.pk }}" data-position="{{ r.fields.position }}"></div>
+        {% endif %} 
 
 
-        {% if r.fields.second_player %}
+        {% if user_name == r.fields.creator %}
+
+            <!-- User is joining his own room -->
+            <button class="btnJoinRoom">Rejoindre votre salon</button>
+
+        {% elif r.fields.second_player and r.fields.second_player != user_name %}
 
             <!-- There is a second player already, the room cannot be joined -->
             <div>Salon complet !</div>
 
-        {% elif creator_name == r.fields.creator %}
-
-            <!-- You can't join your own room (weird, isn'it) -->
-            <div>Vous ne pouvez pas rejoindre votre propre salon.</div>
-
         {% else %}
 
             <!-- There is no second player, someone can join -->
-            <button class="join">Rejoindre le salon</button>
+            <button class="btnJoinRoom">Rejoindre le salon</button>
 
         {% endif %}
     </div>
+
 {% endfor %}

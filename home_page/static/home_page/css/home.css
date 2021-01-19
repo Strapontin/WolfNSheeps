@@ -15,10 +15,27 @@
 .roomName {
     height: 38px;
     padding-top: 18px;
+    word-wrap: break-word;
+}
+
+#inputRoomName {
+    margin-right: 8px;
 }
 
 #availableRoomsContainer {
     display: flex;
     flex-wrap: wrap;
     margin-top: 20px;
+}
+
+.boardMiniature:not(.cantJoinRoom) {
+    cursor: pointer;
+}
+
+.createRoomContainer {
+    display: flex;
+}
+
+#colorChosen {
+    margin: 0 8px;
 }

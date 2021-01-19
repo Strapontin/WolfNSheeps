@@ -3,3 +3,11 @@ body {
     background-color: #373737;
     color: rgb(184, 179, 172);
 }
+
+button {
+    cursor: pointer;
+}
+
+.hidden {
+    display: none;
+}

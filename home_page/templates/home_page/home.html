@@ -11,6 +11,7 @@
 <script>
     var show_all_rooms = '{% url "show_all_rooms" %}'
     var create_new_room = '{% url "create_new_room" %}'
+    var join_room = '{% url "join_room" %}'
 </script>
 
 <!DOCTYPE html>
@@ -21,8 +22,17 @@
 </head>
 <body>
     <h1>Home !</h1>
-    <input id="inputRoomName" type="text" placeholder="Room name" />
-    <button id="createRoom">Create a new room</button>
+    
+    <div class="createRoomContainer">
+        <input id="inputRoomName" type="text" placeholder="Room name" />
+        <div>Sélectionnez votre couleur : </div>
+        <select name="color" id="colorChosen">
+            <option value="Random">Aléatoire</option>
+            <option value="White">Blanc</option>
+            <option value="Black">Noir</option>
+        </select>
+        <button id="createRoom">Create a new room</button>
+    </div>
 
     <div id="availableRoomsContainer"></div>
 </body>

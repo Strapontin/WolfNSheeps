@@ -1,19 +1,5 @@
 
-{% load static %}
-<link rel="stylesheet" type="text/css" href="{% static 'common/css/global.css' %}">
-<link rel="stylesheet" type="text/css" href="{% static 'common/css/chessboard-1.0.0.css' %}">
-<script type="text/javascript" src="{% static 'common/js/jquery-3.5.1.min.js' %}"></script>
-<script type="text/javascript" src="{% static 'common/js/chessboard-1.0.0.js' %}"></script>
-
-<script type="text/javascript" src="{% static 'board/js/board.js' %}"></script>
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Board</title>
-</head>
-<body>
-    <div id="myBoard" style="width: 400px"></div>
-</body>
-</html>
+<div id="myBoard" data-position="{{ room.position }}" style="width: 400px"></div>
+<p>Color turn : {{ room.color_turn }}</p>
+<div id="userColor" class="hidden">{{ user_color }}</div>
+<div id="colorTurn" class="hidden">{{ room.color_turn }}</div>

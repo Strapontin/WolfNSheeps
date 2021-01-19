@@ -1,25 +1,12 @@
 import json
 from django.http import JsonResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.utils import timezone
 from django.core import serializers
+from WolfNSheeps.helper import get_user_name
 import random
 
 from board import models
-from django.utils.safestring import SafeString
-
-
-def get_creator_name(request):
-    # A user will be an ip address and the browser info. Two browsers on a same computer are two players
-    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
-    if x_forwarded_for:
-        ip = x_forwarded_for.split(',')[0]
-    else:
-        ip = request.META.get('REMOTE_ADDR')
-
-    creator = ip + request.META['HTTP_USER_AGENT']
-
-    return creator
 
 
 def home_page(request):
@@ -27,44 +14,55 @@ def home_page(request):
 
 
 def show_all_rooms(request):
-    # print(request.GET)
-
     # Remove all the rooms that are now unused
     for room in list(models.Room.objects.all()):
         room.delete_non_used_rooms()
 
-    # rooms = list(models.Room.objects.all())
     rooms = serializers.serialize("python", models.Room.objects.all())
 
-    # print('__')
-    # print(rooms)
-    # print('__0')
-    # print(rooms[0])
-    # print(rooms[1])
-    # print('__')
-    # print('__')
+    user_name = get_user_name(request)
 
-    creator_name = get_creator_name(request)
-    print(creator_name)
-
-    result = {'status': 200, 'rooms': rooms}
     return render(request, 'home_page/room_miniature.html', {
         'rooms': rooms,
-        'creator_name': creator_name
+        'user_name': user_name
     })
-    # return JsonResponse(result)
 
 
 def create_new_room(request):
-    creator = get_creator_name(request)
+    creator = get_user_name(request)
+
+    color_chosen = request.GET['colorChosen']
+
+    if color_chosen == "Random":
+        color_chosen = random.choice(['White', 'Black'])
 
     room_name = request.GET['roomName']
-    # second_player = ''
     last_time_updated = timezone.now()
-    # position
-    color_turn = random.choice('wb')
+    color_turn = random.choice(['White', 'Black'])
 
-    models.Room(room_name=room_name, creator=creator, last_time_updated=last_time_updated, color_turn=color_turn).save()
+    models.Room(room_name=room_name, creator=creator, last_time_updated=last_time_updated, color_turn=color_turn,
+                creator_color=color_chosen).save()
 
     result = {'status': 200, 'dataVariable': 'mesvars'}
+    return JsonResponse(result)
+
+
+def join_room(request):
+    user = get_user_name(request)
+
+    room_name = request.GET['roomName']
+    room = models.Room.objects.get(room_name=room_name)
+
+    # If the user is the room creator or the second player, we let him enter freely
+    result = {'status': 200, 'url': '/board/' + room_name}
+
+    # If there is no second user yet, this user becomes the second user
+    if room.second_player == '' and room.creator != user:
+        room.second_player = user
+        room.save()
+
+    # Else we had a problem, this room isn't joinable
+    elif room.second_player != user and room.creator != user:
+        result = {'status': 200, 'errorMessage': 'You cannot join this room'}
+
     return JsonResponse(result)
