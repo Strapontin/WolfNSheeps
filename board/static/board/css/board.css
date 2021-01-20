@@ -1,0 +1,17 @@
+#pageContainer {
+    display: flex;
+}
+
+#rules {
+    flex: 1;
+    padding-left: 8px;
+    font-size: 20px;
+}
+
+.boardContainer {
+    flex: 0;
+}
+
+.colorTurn {
+    font-size: 30px;
+}

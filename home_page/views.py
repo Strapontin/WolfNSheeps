@@ -36,7 +36,7 @@ def create_new_room(request):
     if color_chosen == "Random":
         color_chosen = random.choice(['White', 'Black'])
 
-    room_name = request.GET['roomName']
+    room_name = request.GET['roomName'].replace(' ', '_')
     last_time_updated = timezone.now()
     color_turn = random.choice(['White', 'Black'])
 
