@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 
 from pathlib import Path
 import os
+import django_heroku
+import sys
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -130,3 +132,6 @@ STATICFILES_DIRS = [
 # WolfNSheeps/settings.py
 # Channels
 ASGI_APPLICATION = 'WolfNSheeps.asgi.application'
+
+django_heroku.settings(locals())
+sys.path.insert(1, os.path.dirname(os.path.realpath(__file__)))
